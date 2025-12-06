@@ -16,9 +16,10 @@ export default function Home() {
       if (!res.ok) throw new Error("Upload failed");
 
       const data = await res.json();
-      if (!data.id) throw new Error("No ID returned");
+      if (!data.url) throw new Error("No URL returned");
 
-      setUrl(`${window.location.origin}/fit/${data.id}`);
+      // Directly pass the Blob URL as a query param
+      setUrl(`${window.location.origin}/fit/${data.id}?url=${encodeURIComponent(data.url)}`);
     } catch (err) {
       console.error(err);
       alert("Upload failed, check console");
