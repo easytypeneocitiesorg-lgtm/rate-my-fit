@@ -1,19 +1,9 @@
-import { kv } from "@vercel/kv";
+"use client";
+import { useSearchParams } from "next/navigation";
 
-export default async function FitPage({ params }) {
-  const { id } = params;
-  let url = "";
-
-  // Try fetching from KV, fallback to placeholder
-  try {
-    const data = await kv.get(id);
-    if (data?.url) url = data.url;
-  } catch {
-    console.warn("KV not configured, using placeholder");
-  }
-
-  // If no URL, show a placeholder
-  if (!url) url = "https://via.placeholder.com/300";
+export default function FitPage({ params }) {
+  const searchParams = useSearchParams();
+  const url = searchParams.get("url") || "https://via.placeholder.com/300";
 
   return (
     <div style={{
